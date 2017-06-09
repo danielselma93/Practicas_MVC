@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 
 import Modelo.BD;
 
-public class PrimeraVentana implements ActionListener {
+public class PrimeraVentana   {
 
 	public JFrame frame;
 
@@ -56,33 +56,22 @@ public class PrimeraVentana implements ActionListener {
 		 btnEnviar = new JButton("Enviar");
 		frame.getContentPane().add(btnEnviar);
 		btnEnviar.setActionCommand("enviar");
-		btnEnviar.addActionListener(this);
+	
 		
 		
 		
 		btnSiguiente = new JButton("siguiente");
 		frame.getContentPane().add(btnSiguiente);
 		btnSiguiente.setActionCommand("siguiente");
-		btnSiguiente.addActionListener(this);
+	
 		
 		pc.goToNuevaVentana(btnSiguiente, frame);
+		pc.insercionDatos(btnEnviar, textNombre, textApellido, textEdad);
 		
 	}
 
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-		if (arg0.getActionCommand().equals("enviar")){
-			BD bd= new BD ();
-			String nombre=textNombre.getText();
-			String apellido=textApellido.getText();
-			int edad=Integer.parseInt(textEdad.getText());	
-			bd.InsertarDatos(nombre, apellido, edad);
-		}
-		
-		}
+
 	}
 
 

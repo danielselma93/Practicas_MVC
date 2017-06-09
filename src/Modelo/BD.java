@@ -6,6 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 
 public class BD {
 
@@ -48,19 +53,45 @@ public class BD {
 			
 		}
 		}
-	public ResultSet rellenarDatosTabla(){
+	public JTable rellenarDatosTabla(JTable table, DefaultTableModel modelo){
 		
 		String consulta= "SELECT * FROM usuario";
 		Connection cn = Conectar();
 		ResultSet rs=null;
 		PreparedStatement ps=null;
+		modelo.setColumnIdentifiers(new Object[]{"Nombre, Apellido, Edad"});
 		try{
 			 ps = cn.prepareStatement(consulta);
 			 rs = ps.executeQuery();
+			 while(rs.next()){
+					modelo.addRow(new Object []{rs.getString("nombre"), rs.getString("apellido"), rs.getInt("edad")});
 		
-		}catch(SQLException e){
-			
 		}
-		return rs;
+			 }catch(SQLException e){
+				 table.setModel(modelo);
+				
+		}
+		return table;	
+	}
+	public void rellenarDatosLista(JList list){
+		DefaultListModel dlm = new DefaultListModel();
+		String consulta="SELECT * FROM usuario";
+		Connection cn = Conectar();
+		ResultSet rs=null;
+		PreparedStatement ps = null;
+		try {
+			ps = cn.prepareStatement(consulta);
+			rs= ps.executeQuery();
+			while (rs.next()){
+				dlm.addElement(new Object []{rs.getString("nombre"),rs.getString("apellido"), rs.getInt("edad")});
+			}
+			list.setModel(dlm);
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 }
