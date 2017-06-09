@@ -83,7 +83,9 @@ public class BD {
 			ps = cn.prepareStatement(consulta);
 			rs= ps.executeQuery();
 			while (rs.next()){
-				dlm.addElement(new Object []{rs.getString("nombre"),rs.getString("apellido"), rs.getInt("edad")});
+				dlm.addElement(rs.getString("nombre"));
+				dlm.addElement(rs.getString("apellido"));
+				dlm.addElement(rs.getInt("edad"));
 			}
 			list.setModel(dlm);
 		} catch (SQLException e) {
