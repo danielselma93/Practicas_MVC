@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -73,9 +74,10 @@ public class BD {
 		}
 		return table;	
 	}
-	public void rellenarDatosLista(JList list){
+	public ArrayList<Object> rellenarDatosLista(JList list){
+		ArrayList<Object> al = new ArrayList<Object>();
 		DefaultListModel dlm = new DefaultListModel();
-		String consulta="SELECT * FROM usuario";
+		String consulta="SELECT nombre,apellido,edad FROM usuario";
 		Connection cn = Conectar();
 		ResultSet rs=null;
 		PreparedStatement ps = null;
@@ -83,9 +85,12 @@ public class BD {
 			ps = cn.prepareStatement(consulta);
 			rs= ps.executeQuery();
 			while (rs.next()){
-				dlm.addElement(rs.getString("nombre"));
-				dlm.addElement(rs.getString("apellido"));
-				dlm.addElement(rs.getInt("edad"));
+			String nombre = rs.getString("nombre");
+			String apellido = rs.getString("apellido");
+			int edad = rs.getInt("edad");
+			al.add(new Object []{ rs.getString("nombre"),
+			 rs.getString("apellido"),
+			  rs.getInt("edad")});
 			}
 			list.setModel(dlm);
 		} catch (SQLException e) {
@@ -93,7 +98,7 @@ public class BD {
 			e.printStackTrace();
 		}
 		
-		
+		return al;
 		
 	}
 }

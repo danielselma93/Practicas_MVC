@@ -1,16 +1,19 @@
 package Vista;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
 import java.awt.Component;
+import java.awt.Font;
+import java.util.ArrayList;
+
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.JButton;
+import javax.swing.JTextPane;
+
+import Controller.ControladorExportarPDF;
 import Modelo.BD;
 
 public class OtraVentanaMas {
@@ -19,6 +22,7 @@ public class OtraVentanaMas {
 	private JList list;
 	private JButton btnExportar;
 	private JButton btnVolver;
+	private JTextPane textArea;
 
 	public OtraVentanaMas() {
 		initialize();
@@ -26,6 +30,7 @@ public class OtraVentanaMas {
 
 	
 	private void initialize() {
+		ControladorExportarPDF ce = new ControladorExportarPDF();
 		BD bd = new BD();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
@@ -39,18 +44,38 @@ public class OtraVentanaMas {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		frame.getContentPane().add(scrollPane);
-		
-		 list = new JList();
+		DefaultListModel dlm = new DefaultListModel();
+		ArrayList<Object> al;
+		//for(int i=0;i<al.size();i++){
+			//al.add(dlm);
+			System.out.println("Bucle infinito idiota");
+	//	}
+				
+		 list = new JList(dlm);
 		scrollPane.setViewportView(list);
+
+		
+		 textArea = new JTextPane();
+		 frame.getContentPane().add(textArea);
 		
 		 btnExportar = new JButton("Exportar");
+		
 		frame.getContentPane().add(btnExportar);
 		btnExportar.setActionCommand("exportar");
 		
 		 btnVolver = new JButton("Volver");
+		 
 		frame.getContentPane().add(btnVolver);
 		btnVolver.setActionCommand("volver");
+	
+		
+	
 		bd.rellenarDatosLista(list);
+		ce.getTextArea(btnExportar, textArea);
+		ce.backTo(btnVolver, frame);
+		al=bd.rellenarDatosLista(list);
+				
+		
 	}
 
 }
